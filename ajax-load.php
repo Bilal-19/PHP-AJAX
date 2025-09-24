@@ -12,7 +12,10 @@ if (mysqli_num_rows($res_sql) > 0) {
             <td>{$row["id"]}</td>
             <td>{$row["name"]}</td>
             <td>{$row["email"]}</td>
-            <td><button data-id='{$row["id"]}' class='btn btn-danger' id='del-rec'>Delete</button></td>
+            <td>
+                <button data-edit-id='{$row["id"]}' class='btn btn-primary' id='edit-rec'>Edit</button>
+                <button data-id='{$row["id"]}' class='btn btn-danger' id='del-rec'>Delete</button>
+            </td>
         </tr>
         ";
     }
@@ -23,3 +26,4 @@ if (mysqli_num_rows($res_sql) > 0) {
     echo "Record not found";
 }
 ?>
+

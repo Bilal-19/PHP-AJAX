@@ -26,6 +26,7 @@
             <div class="row my-3">
                 <div class="col-md-3">
                     <input type="text" class="form-control" placeholder="Enter name" id="username">
+                    <input type="text" hidden id="user_id">
                 </div>
 
                 <div class="col-md-3">

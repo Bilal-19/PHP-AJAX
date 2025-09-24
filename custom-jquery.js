@@ -12,6 +12,7 @@ $(document).ready(function () {
     }
     loadTable();
 
+    /*
     $("#submit-btn").on("click", function (e) {
         e.preventDefault();
         var name = $("#username").val()
@@ -45,6 +46,7 @@ $(document).ready(function () {
         }
         return false;
     })
+    */
 
     // Delete records
     $(document).on("click", "#del-rec", function () {
@@ -67,6 +69,81 @@ $(document).ready(function () {
                 }
             });
         }
+    })
+
+
+    // Edit records
+    $(document).on("click", "#edit-rec", function () {
+        var user_id = $(this).data("edit-id");
+        $.ajax({
+            url: "ajax-edit.php",
+            type: "POST",
+            dataType: "json",
+            data: { userID: user_id },
+            success: function (data) {
+                console.log(data);
+                $("#username").val(data.name)
+                $("#useremail").val(data.email)
+                $("#user_id").val(data.id)
+                $("#submit-btn").val("Update")
+            }
+        });
+    })
+
+    // Update record
+    // Form: Add new record or Update existing record
+    $("#submit-btn").on("click", function (e) {
+        var submit_mode = $("#submit-btn").val()
+        var id = $("#user_id").val()
+        var name = $("#username").val()
+        var email = $("#useremail").val()
+
+        // form validation
+        if (name == "" || email == "") {
+            $("#err-msg").html("All fields are required").slideDown()
+            $("#success-msg").slideUp()
+        } else {
+            if (submit_mode == "Add") {
+                $.ajax({
+                    url: "ajax-insert.php",
+                    type: "POST",
+                    data: { user_name: name, user_email: email, submit_mode: "add"},
+                    success: function (data) {
+                        console.log("message from server: " + data)
+                        // 'data' can be 0 or 1 as we specified in the file
+                        if (data == 1) {
+                            loadTable();
+                            $("#addForm").trigger("reset") //reset form fields
+                            $("#success-msg").html("New record added").slideDown()
+                            $("#err-msg").slideUp()
+                        } else {
+                            $("#err-msg").html("Can't add new record").slideDown()
+                            $("#success-msg").slideUp()
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "ajax-insert.php",
+                    type: "POST",
+                    data: { user_name: name, user_email: email, submit_mode: "edit", user_id: id },
+                    success: function (data) {
+                        console.log("message from server: " + data)
+                        // 'data' can be 0 or 1 as we specified in the file
+                        if (data == 1) {
+                            loadTable();
+                            $("#addForm").trigger("reset") //reset form fields
+                            $("#success-msg").html("Record updated").slideDown()
+                            $("#err-msg").slideUp()
+                        } else {
+                            $("#err-msg").html("Can't update record").slideDown()
+                            $("#success-msg").slideUp()
+                        }
+                    }
+                });
+            }
+        }
+        return false;
     })
 })
 
