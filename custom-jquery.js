@@ -160,5 +160,26 @@ $(document).ready(function () {
             }
         })
     })
+
+    // Fetch data based on page number
+    function loadTable(page) {
+        $.ajax({
+            url: "ajax-pagination.php",
+            type: "POST",
+            data: { page_no: page },
+
+            success: function (data) {
+                $("#table-data").html(data);
+            }
+        })
+    }
+    loadTable();
+
+    $(document).on("click", ".pagination .page-item .page-link", function (e) {
+        e.preventDefault() // Remove the default behaviour of anchor tag
+        var page_id = $(this).attr("id")
+        loadTable(page_id)
+    })
+
 })
 
