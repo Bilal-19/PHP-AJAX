@@ -107,7 +107,7 @@ $(document).ready(function () {
                 $.ajax({
                     url: "ajax-insert.php",
                     type: "POST",
-                    data: { user_name: name, user_email: email, submit_mode: "add"},
+                    data: { user_name: name, user_email: email, submit_mode: "add" },
                     success: function (data) {
                         console.log("message from server: " + data)
                         // 'data' can be 0 or 1 as we specified in the file
@@ -144,6 +144,21 @@ $(document).ready(function () {
             }
         }
         return false;
+    })
+
+    // Live Search
+    $("#search").on("keyup", function () {
+        var search = $(this).val()
+
+        $.ajax({
+            url: "ajax-live-search.php",
+            type: "POST",
+            data: { search: search },
+
+            success: function (data) {
+                $("#table-data").html(data);
+            }
+        })
     })
 })
 

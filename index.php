@@ -39,6 +39,15 @@
             </div>
         </form>
 
+        <!-- Search box -->
+        <form id="searchForm">
+            <div class="row my-3">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" placeholder="Search by name or email" id="search">
+                </div>
+            </div>
+        </form>
+
         <div id="err-msg" class="bg-danger text-white rounded"></div>
         <div id="success-msg" class="bg-success text-white"></div>
 
